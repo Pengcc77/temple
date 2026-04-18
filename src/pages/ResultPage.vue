@@ -8,16 +8,27 @@
     <ProgressDots :current="5" :total="5" />
 
     <article ref="blessingCardRef" class="blessing-card u-fade-in" aria-label="祝福卡">
+      <span class="card-halo" aria-hidden="true"></span>
       <span class="guardian-seal" aria-hidden="true">護</span>
-      <p class="temple-name">祥喜註生宮</p>
-      <p class="wish-direction">祈願方向：{{ displayWishLabel }}</p>
-      <p class="context-line">{{ contextLine }}</p>
-      <p class="blessing-line">{{ displayBlessingMessage }}</p>
-      <p class="today-date">今日日期：{{ todayLabel }}</p>
+      <img class="card-figure" :src="goddessFigure" alt="" aria-hidden="true" />
+
+      <div class="card-head">
+        <p class="temple-name">祥喜註生宮</p>
+        <p class="card-subtitle">註生娘娘祝福卡</p>
+      </div>
+
+      <div class="card-body">
+        <p class="blessing-line">{{ displayBlessingMessage }}</p>
+        <p class="context-line">{{ contextLine }}</p>
+      </div>
+
+      <div class="card-meta">
+        <p class="wish-direction">祈願方向：{{ displayWishLabel }}</p>
+        <p class="today-date">今日日期：{{ todayLabel }}</p>
+      </div>
+
+      <p class="card-closing">願平安與祝福常伴左右</p>
     </article>
-    <div class="blessing-figure-wrap u-fade-in" aria-hidden="true">
-      <img class="figure" :src="elderFigure" alt="" />
-    </div>
 
     <p v-if="downloadError" class="download-error">儲存失敗，請再試一次或改用截圖保存。</p>
 
@@ -52,7 +63,7 @@ import { getRandomBlessing, wishTypeLabelMap } from '../data/blessings'
 import PageShell from '../components/ui/PageShell.vue'
 import ProgressDots from '../components/ui/ProgressDots.vue'
 import TempleButton from '../components/ui/TempleButton.vue'
-import elderFigure from '../assets/02.png'
+import goddessFigure from '../assets/01.png'
 
 const router = useRouter()
 const { state, resetBlessingJourney } = useBlessingStore()
@@ -165,47 +176,99 @@ function goBack() {
 <style scoped>
 .blessing-card {
   position: relative;
-  margin-top: var(--space-2);
-  padding: 22px 18px 20px;
+  margin-top: var(--space-1);
+  padding: 18px 18px 16px;
+  width: min(100%, 330px);
+  margin-inline: auto;
+  aspect-ratio: 4 / 5;
+  min-height: 410px;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  background: linear-gradient(180deg, rgba(255, 252, 247, 0.92), rgba(255, 246, 236, 0.9)),
-    radial-gradient(circle at 20% 18%, rgba(255, 244, 223, 0.8), transparent 36%);
-  box-shadow: 0 18px 34px rgba(118, 81, 50, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(173, 130, 95, 0.28);
+  background: linear-gradient(180deg, #fffcf8 0%, #fdf5ea 100%);
+  box-shadow: 0 16px 30px rgba(118, 81, 50, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   text-align: center;
 }
 
 .guardian-seal {
   position: absolute;
-  top: 12px;
+  top: 14px;
   right: 14px;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 1px solid rgba(170, 124, 82, 0.5);
   color: rgba(147, 102, 64, 0.86);
-  font-size: 15px;
+  font-size: 16px;
   display: grid;
   place-items: center;
-  background: rgba(255, 245, 230, 0.75);
+  background: rgba(255, 245, 230, 0.82);
+  z-index: 3;
+}
+
+.card-halo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(circle at 20% 14%, rgba(255, 233, 195, 0.48), transparent 34%),
+    radial-gradient(circle at 82% 88%, rgba(247, 223, 187, 0.36), transparent 40%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(180, 135, 88, 0.035),
+      rgba(180, 135, 88, 0.035) 6px,
+      transparent 6px,
+      transparent 16px
+    );
+}
+
+.card-head,
+.card-body,
+.card-meta,
+.card-closing {
+  position: relative;
+  z-index: 2;
+}
+
+.card-head {
+  margin-top: 8px;
+}
+
+.card-figure {
+  position: absolute;
+  left: 10px;
+  bottom: 12px;
+  width: 74px;
+  height: auto;
+  opacity: 0.26;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .temple-name {
-  color: #866146;
+  color: #7a5638;
   font-size: var(--font-sm);
+  letter-spacing: 0.09em;
+}
+
+.card-subtitle {
+  margin-top: 4px;
+  color: var(--color-text-muted);
+  font-size: var(--font-xs);
   letter-spacing: 0.08em;
 }
 
 .wish-direction {
-  margin-top: var(--space-3);
-  color: var(--color-text);
-  font-size: var(--font-lg);
-  font-weight: 600;
-  line-height: var(--line-title);
+  color: var(--color-text-soft);
+  font-size: var(--font-sm);
+  line-height: var(--line-copy-tight);
 }
 
 .context-line {
-  margin-top: 10px;
+  margin-top: var(--space-2);
   color: var(--color-text-muted);
   line-height: var(--line-copy-tight);
   font-size: var(--font-sm);
@@ -213,15 +276,32 @@ function goBack() {
 
 .blessing-line {
   margin-top: var(--space-3);
-  color: var(--color-text-soft);
-  line-height: var(--line-copy);
-  font-size: var(--font-md);
+  max-width: 11ch;
+  margin-inline: auto;
+  color: #5f432e;
+  line-height: 1.62;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  word-break: break-word;
 }
 
 .today-date {
-  margin-top: var(--space-3);
   color: var(--color-text-muted);
   font-size: var(--font-sm);
+}
+
+.card-meta {
+  margin-top: auto;
+  display: grid;
+  gap: 6px;
+}
+
+.card-closing {
+  margin-top: var(--space-2);
+  color: #8a694f;
+  font-size: var(--font-sm);
+  letter-spacing: 0.02em;
 }
 
 .download-error {
@@ -239,20 +319,5 @@ function goBack() {
 
 .download-tip p + p {
   margin-top: 4px;
-}
-
-.blessing-figure-wrap {
-  margin-top: var(--space-2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.figure {
-  width: 92px;
-  max-width: 28vw;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 8px 14px rgba(120, 84, 56, 0.14));
 }
 </style>
