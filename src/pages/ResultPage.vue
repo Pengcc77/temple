@@ -35,19 +35,14 @@ const { state, resetBlessingJourney } = useBlessingStore()
 
 const templeName = '鹿港天后宮・註生娘娘殿'
 
-const blessingById = {
-  'peaceful-heart': '願心安定，福至平安',
-  'family-harmony': '願家和同心，日常安穩',
-  'new-life': '願新生平順，福蔭常在',
-}
-
 const finalWishDirection = computed(() => {
-  const wish = state.wishDirection?.trim()
+  const wish = state.selectedWishType?.trim()
   return wish ? `祈願方向：${wish}` : '祈願方向：願寶寶健康平安'
 })
 
 const finalBlessingLine = computed(() => {
-  return blessingById[state.selectedBlessingId] || '願心安定，福至平安'
+  const message = state.blessingMessage?.trim()
+  return message || '願心安定，福至平安'
 })
 
 const todayLabel = computed(() => {

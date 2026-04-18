@@ -21,7 +21,23 @@ function selectWish(option) {
 
 function continueToReminder() {
   if (!canContinue.value) return
-  blessingStore.setWishDirection(selectedWish.value)
+
+  if (typeof blessingStore.setSelectedWishType === 'function') {
+    blessingStore.setSelectedWishType(selectedWish.value)
+  } else {
+    blessingStore.setWishDirection(selectedWish.value)
+  }
+
+  const messageMap = {
+    '求順利生產': '願一切平順，母子安康',
+    '求寶寶健康平安': '願寶寶健康平安，福澤綿長',
+    '感謝娘娘庇佑': '願感恩長存，日日安穩',
+  }
+
+  if (typeof blessingStore.setBlessingMessage === 'function') {
+    blessingStore.setBlessingMessage(messageMap[selectedWish.value] || '願心安定，福至平安')
+  }
+
   router.push('/reminder')
 }
 </script>
