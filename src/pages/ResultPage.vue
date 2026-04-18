@@ -15,6 +15,10 @@
       <p class="blessing-line">{{ displayBlessingMessage }}</p>
       <p class="today-date">今日日期：{{ todayLabel }}</p>
     </article>
+    <div class="blessing-figures u-fade-in" aria-hidden="true">
+      <img class="figure" :src="goddessFigure" alt="" />
+      <img class="figure" :src="elderFigure" alt="" />
+    </div>
 
     <p v-if="downloadError" class="download-error">儲存失敗，請再試一次或改用截圖保存。</p>
 
@@ -47,6 +51,8 @@ import { getRandomBlessing, wishTypeLabelMap } from '../data/blessings'
 import PageShell from '../components/ui/PageShell.vue'
 import ProgressDots from '../components/ui/ProgressDots.vue'
 import TempleButton from '../components/ui/TempleButton.vue'
+import goddessFigure from '../assets/01.png'
+import elderFigure from '../assets/02.png'
 
 const router = useRouter()
 const { state, resetBlessingJourney } = useBlessingStore()
@@ -234,5 +240,21 @@ function goBack() {
   color: var(--color-text-muted);
   font-size: var(--font-sm);
   line-height: var(--line-copy-tight);
+}
+
+.blessing-figures {
+  margin-top: var(--space-2);
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 8px;
+}
+
+.figure {
+  width: 84px;
+  max-width: 26vw;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(120, 84, 56, 0.14));
 }
 </style>
