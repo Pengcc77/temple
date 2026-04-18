@@ -1,9 +1,9 @@
 ﻿<template>
   <PageShell
     aria-label="首頁"
-    step="祥喜註生宮數位祈福"
-    title="以一段小小祈願，向註生娘娘獻上祝福"
-    subtitle="在等待的片刻，也能留下溫柔祈福。"
+    step="祥喜註生宮"
+    title="向註生娘娘獻上您的祈願"
+    subtitle="短暫片刻，留下誠摯祈福。"
   >
     <ProgressDots :current="0" :total="5" />
 
@@ -11,9 +11,9 @@
       <div class="hero-figure-wrap" aria-hidden="true">
         <img class="hero-figure" :src="goddessFigure" alt="" />
       </div>
-      <p class="temple-name">祥喜註生宮</p>
-      <p class="intro-text">沿著簡短引導，靜心、祈願、收福，讓祝福安穩留在今天。</p>
-      <p class="onsite-tip">約 3 分鐘完成，手機靜音體驗。</p>
+      <p class="temple-name">祥喜註生宮。保佑您平安</p>
+      <p class="intro-text">循著簡短引導，靜心、祈願、祝福，安穩每一天。</p>
+      <p class="onsite-tip">(約 3 分鐘可完成祈願)</p>
     </SectionCard>
 
     <template #footer>

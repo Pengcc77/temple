@@ -2,35 +2,33 @@
   <PageShell
     aria-label="祈福結果"
     step="祈福旅程・步驟 5"
-    title="你的今日祝福"
-    subtitle="願這份祝福，陪你走過接下來的每一天。"
+    title="您的祝福守護"
+    subtitle="願此祝福，陪你走過接下來的每一天。"
   >
     <ProgressDots :current="5" :total="5" />
 
-    <div ref="blessingCaptureRef" class="blessing-capture">
-      <article class="blessing-card u-fade-in" aria-label="祝福卡">
-        <span class="card-halo" aria-hidden="true"></span>
-        <span class="guardian-seal" aria-hidden="true">護</span>
-        <img class="card-figure" :src="goddessFigure" alt="" aria-hidden="true" />
+    <article ref="blessingCardRef" class="blessing-card u-fade-in" aria-label="祝福卡">
+      <span class="card-halo" aria-hidden="true"></span>
+      <span class="guardian-seal" aria-hidden="true">護</span>
+      <img class="card-figure" :src="goddessFigure" alt="" aria-hidden="true" />
 
-        <div class="card-head">
-          <p class="temple-name">祥喜註生宮</p>
-          <p class="card-subtitle">註生娘娘祝福卡</p>
-        </div>
+      <div class="card-head">
+        <p class="temple-name">祥喜註生宮</p>
+        <p class="card-subtitle">註生娘娘祝福卡</p>
+      </div>
 
-        <div class="card-body">
-          <p class="blessing-line">{{ displayBlessingMessage }}</p>
-          <p class="context-line">{{ contextLine }}</p>
-        </div>
+      <div class="card-body">
+        <p class="blessing-line">{{ displayBlessingMessage }}</p>
+        <p class="context-line">{{ contextLine }}</p>
+      </div>
 
-        <div class="card-meta">
-          <p class="wish-direction">祈願方向：{{ displayWishLabel }}</p>
-          <p class="today-date">今日日期：{{ todayLabel }}</p>
-        </div>
+      <div class="card-meta">
+        <p class="wish-direction">祈願方向：{{ displayWishLabel }}</p>
+        <p class="today-date">日期：{{ todayLabel }}</p>
+      </div>
 
-        <p class="card-closing">願平安與祝福常伴左右</p>
-      </article>
-    </div>
+      <p class="card-closing">願平安與祝福常伴左右</p>
+    </article>
 
     <p v-if="downloadError" class="download-error">儲存失敗，請再試一次或改用截圖保存。</p>
 
@@ -70,7 +68,7 @@ import goddessFigure from '../assets/01.png'
 const router = useRouter()
 const { state, resetBlessingJourney } = useBlessingStore()
 
-const blessingCaptureRef = ref(null)
+const blessingCardRef = ref(null)
 const isSaving = ref(false)
 const downloadError = ref(false)
 const randomBlessing = ref('')
@@ -133,21 +131,16 @@ function makeFileName() {
 }
 
 async function saveImage() {
-  if (isSaving.value || !blessingCaptureRef.value) return
+  if (isSaving.value || !blessingCardRef.value) return
 
   isSaving.value = true
   downloadError.value = false
 
   try {
-    const target = blessingCaptureRef.value
-    const rect = target.getBoundingClientRect()
-
-    const dataUrl = await toPng(target, {
+    const dataUrl = await toPng(blessingCardRef.value, {
       cacheBust: true,
       pixelRatio: 2,
       backgroundColor: '#fffaf2',
-      width: Math.ceil(rect.width),
-      height: Math.ceil(rect.height),
     })
 
     const fileName = makeFileName()
@@ -181,16 +174,9 @@ function goBack() {
 </script>
 
 <style scoped>
-.blessing-capture {
-  margin-top: var(--space-1);
-  margin-inline: auto;
-  width: min(100%, 350px);
-  padding: 10px;
-}
-
 .blessing-card {
   position: relative;
-  margin-top: 0;
+  margin-top: var(--space-1);
   padding: 18px 18px 16px;
   width: min(100%, 330px);
   margin-inline: auto;

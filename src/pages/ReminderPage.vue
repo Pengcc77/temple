@@ -32,8 +32,8 @@ import ProgressDots from '../components/ui/ProgressDots.vue'
 const router = useRouter()
 
 const tips = [
-  '參拜時請保持心靜，放慢步伐。',
-  '請依廟方動線參拜，保持現場安寧。',
+  '參拜時保持心靜，放慢腳步。',
+  '依廟方動線參拜，順暢動線。',
   '若對供品或儀式有疑問，可詢問廟方人員。',
 ]
 

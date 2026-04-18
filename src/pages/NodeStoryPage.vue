@@ -3,7 +3,7 @@
     aria-label="認識祥喜註生宮"
     step="祈福旅程・步驟 4"
     title="認識祥喜註生宮"
-    subtitle="在一分鐘內，輕輕讀完這座宮廟的由來與信念。"
+    subtitle="一分鐘內，輕輕讀完宮廟的由來與信念。"
   >
     <ProgressDots :current="4" :total="5" />
 
@@ -45,7 +45,7 @@
 
     <SectionCard tone="soft" class="closing-note u-fade-in" style="animation-delay: 140ms">
       <p>每一份心意，都是與地方文化相遇的溫柔時刻。</p>
-      <p>願這段閱讀，讓你帶著更安定的心，走向今日祝福。</p>
+      <p>願這段閱讀，讓您帶著更安定的心，獲得祝福。</p>
     </SectionCard>
 
     <template #footer>
