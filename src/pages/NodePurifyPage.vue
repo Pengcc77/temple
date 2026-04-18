@@ -1,14 +1,61 @@
+﻿<template>
+  <PageShell
+    aria-label="淨心點燈"
+    step="祈福旅程?步驟 3"
+    title="長按點亮心燈"
+    subtitle="在安靜的片刻，讓祝福慢慢亮起。"
+  >
+    <ProgressDots :current="3" :total="5" />
+
+    <SectionCard tone="soft" class="lamp-wrap">
+      <button
+        type="button"
+        class="lamp-button"
+        :class="{ 'is-holding': isHolding, 'is-lit': isLit }"
+        :aria-label="statusText"
+        @pointerdown.prevent="startHold"
+        @pointerup="stopHold"
+        @pointerleave="stopHold"
+        @pointercancel="stopHold"
+        @touchstart.prevent="startHold"
+        @touchend="stopHold"
+        @touchcancel="stopHold"
+        @mousedown.prevent="startHold"
+        @mouseup="stopHold"
+        @mouseleave="stopHold"
+      >
+        <span class="lamp-core" aria-hidden="true"></span>
+        <span class="lamp-status">{{ statusText }}</span>
+        <span class="progress-track" aria-hidden="true">
+          <span class="progress-fill" :style="{ width: `${progress}%` }"></span>
+        </span>
+      </button>
+    </SectionCard>
+
+    <SectionCard v-if="isLit" tone="soft">
+      <p class="blessing-text">{{ BLESSING_TEXT }}</p>
+    </SectionCard>
+
+    <template #footer>
+      <TempleButton v-if="isLit" variant="primary" @click="acceptBlessing">收下祝福</TempleButton>
+    </template>
+  </PageShell>
+</template>
+
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBlessingStore } from '../stores/blessingStore'
+import PageShell from '../components/ui/PageShell.vue'
+import SectionCard from '../components/ui/SectionCard.vue'
+import TempleButton from '../components/ui/TempleButton.vue'
+import ProgressDots from '../components/ui/ProgressDots.vue'
 
 const HOLD_MS = 2000
-const BLESSING_TEXT = '願心安定，福至平安'
+const BLESSING_TEXT = '願心安定，福至平安。'
 
 const router = useRouter()
 const blessingStore = useBlessingStore()
-const { completeNode } = blessingStore
 
 const isHolding = ref(false)
 const isLit = ref(false)
@@ -59,15 +106,7 @@ function stopHold() {
 
 function acceptBlessing() {
   if (!isLit.value) return
-
-  // Store if available; fallback text remains BLESSING_TEXT in this page and ResultPage defaults.
-  if (typeof blessingStore.setBlessingMessage === 'function') {
-    blessingStore.setBlessingMessage(BLESSING_TEXT)
-  }
-  if (typeof blessingStore.setSelectedBlessingId === 'function') {
-    blessingStore.setSelectedBlessingId('peaceful-heart')
-  }
-
+  blessingStore.setBlessingMessage(BLESSING_TEXT)
   router.push('/result')
 }
 
@@ -78,7 +117,9 @@ const statusText = computed(() => {
 })
 
 onMounted(() => {
-  completeNode('purify')
+  if (typeof blessingStore.completeNode === 'function') {
+    blessingStore.completeNode('purify')
+  }
 })
 
 onBeforeUnmount(() => {
@@ -86,109 +127,10 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<template>
-  <main class="purify-page" aria-label="淨心點燈">
-    <section class="ritual-card">
-      <header class="ritual-header">
-        <p class="step-text">祈福旅程・淨心</p>
-        <h1>長按點亮心燈</h1>
-        <p class="subtitle">在安靜的片刻，為心中祈願點上一盞柔和的光。</p>
-      </header>
-
-      <section class="ritual-center">
-        <button
-          type="button"
-          class="lamp-button"
-          :class="{ 'is-holding': isHolding, 'is-lit': isLit }"
-          :aria-label="statusText"
-          @pointerdown.prevent="startHold"
-          @pointerup="stopHold"
-          @pointerleave="stopHold"
-          @pointercancel="stopHold"
-          @touchstart.prevent="startHold"
-          @touchend="stopHold"
-          @touchcancel="stopHold"
-          @mousedown.prevent="startHold"
-          @mouseup="stopHold"
-          @mouseleave="stopHold"
-        >
-          <span class="lamp-core" aria-hidden="true"></span>
-          <span class="lamp-status">{{ statusText }}</span>
-          <span class="progress-track" aria-hidden="true">
-            <span class="progress-fill" :style="{ width: `${progress}%` }"></span>
-          </span>
-        </button>
-      </section>
-
-      <p v-if="isLit" class="blessing-text">{{ BLESSING_TEXT }}</p>
-
-      <footer class="ritual-footer">
-        <button
-          v-if="isLit"
-          type="button"
-          class="accept-btn"
-          @click="acceptBlessing"
-        >
-          收下祝福
-        </button>
-      </footer>
-    </section>
-  </main>
-</template>
-
 <style scoped>
-.purify-page {
-  min-height: 100dvh;
-  padding: 20px 16px;
-  display: flex;
-  justify-content: center;
-  background:
-    radial-gradient(circle at 25% 12%, rgba(255, 244, 225, 0.9), transparent 45%),
-    radial-gradient(circle at 82% 85%, rgba(246, 225, 201, 0.75), transparent 40%),
-    linear-gradient(160deg, #f8f2e8 0%, #efe4d4 100%);
-}
-
-.ritual-card {
-  width: min(100%, 390px);
-  min-height: calc(100dvh - 40px);
-  border-radius: 22px;
-  padding: 24px 18px 20px;
-  background: rgba(255, 251, 245, 0.84);
-  border: 1px solid rgba(173, 128, 90, 0.2);
-  box-shadow: 0 14px 30px rgba(112, 82, 58, 0.11);
-  display: flex;
-  flex-direction: column;
-}
-
-.ritual-header {
-  text-align: center;
-}
-
-.step-text {
-  margin: 0;
-  font-size: 13px;
-  color: #8d6d53;
-  letter-spacing: 0.06em;
-}
-
-.ritual-header h1 {
-  margin: 10px 0 8px;
-  font-size: 29px;
-  line-height: 1.25;
-  color: #4f3b2a;
-}
-
-.subtitle {
-  margin: 0;
-  color: #6f5845;
-  line-height: 1.6;
-}
-
-.ritual-center {
-  flex: 1;
+.lamp-wrap {
   display: grid;
   place-items: center;
-  padding: 24px 0 12px;
 }
 
 .lamp-button {
@@ -251,36 +193,10 @@ onBeforeUnmount(() => {
 }
 
 .blessing-text {
-  margin: 0 0 12px;
   text-align: center;
   color: #674a34;
   font-size: 17px;
   font-weight: 600;
 }
-
-.ritual-footer {
-  min-height: 48px;
-}
-
-.accept-btn {
-  width: 100%;
-  min-height: 48px;
-  border: none;
-  border-radius: 999px;
-  color: #fffaf3;
-  font-size: 16px;
-  font-weight: 600;
-  background: linear-gradient(180deg, #c89566 0%, #b9804f 100%);
-  box-shadow: 0 8px 16px rgba(143, 101, 66, 0.24);
-}
-
-.accept-btn:active {
-  transform: translateY(1px);
-}
-
-@media (max-width: 360px) {
-  .ritual-header h1 {
-    font-size: 25px;
-  }
-}
 </style>
+

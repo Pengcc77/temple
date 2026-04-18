@@ -1,0 +1,39 @@
+﻿:root {
+  --color-bg: #f6efe5;
+  --color-bg-soft: #fbf7f1;
+  --color-surface: rgba(255, 251, 245, 0.86);
+  --color-surface-strong: #fffaf2;
+  --color-primary: #b9804f;
+  --color-primary-strong: #a86f41;
+  --color-secondary: #efe1d1;
+  --color-text: #4f3b2a;
+  --color-text-soft: #6f5845;
+  --color-text-muted: #8d6d53;
+  --color-border: rgba(163, 124, 90, 0.28);
+  --color-border-strong: rgba(158, 120, 88, 0.42);
+  --color-shadow: rgba(112, 82, 58, 0.14);
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --space-1: 6px;
+  --space-2: 10px;
+  --space-3: 14px;
+  --space-4: 18px;
+  --space-5: 22px;
+  --space-6: 28px;
+
+  --font-xs: 13px;
+  --font-sm: 14px;
+  --font-md: 16px;
+  --font-lg: 18px;
+  --font-xl: 28px;
+
+  --shadow-card: 0 14px 30px var(--color-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --shadow-soft: 0 8px 18px rgba(130, 92, 62, 0.2);
+
+  --page-max-width: 390px;
+}
+
