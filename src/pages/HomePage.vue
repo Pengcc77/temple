@@ -20,13 +20,18 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const startBlessing = () => {
-  console.log('startBlessing()');
-};
+  router.push('/wish')
+}
 
 const goToAbout = () => {
-  console.log('goToAbout()');
-};
+  // TODO: router.push('/about')
+  console.log('go to about')
+}
 </script>
 
 <style scoped>
