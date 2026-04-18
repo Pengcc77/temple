@@ -5,8 +5,10 @@
     title="以一段小小祈願，向註生娘娘獻上祝福"
     subtitle="在等待的片刻，也能留下溫柔祈福。"
   >
-    <SectionCard tone="soft" class="u-stack-sm u-center">
-      <p class="u-muted">祥喜註生宮</p>
+    <ProgressDots :current="0" :total="5" />
+
+    <SectionCard tone="soft" class="u-stack-sm u-center u-fade-in">
+      <p class="temple-name">祥喜註生宮</p>
       <p class="intro-text">沿著簡短引導，靜心、祈願、收福，讓祝福安穩留在今天。</p>
       <p class="onsite-tip">約 3 分鐘完成，建議手機靜音體驗。</p>
     </SectionCard>
@@ -25,6 +27,7 @@ import { useRouter } from 'vue-router'
 import PageShell from '../components/ui/PageShell.vue'
 import SectionCard from '../components/ui/SectionCard.vue'
 import TempleButton from '../components/ui/TempleButton.vue'
+import ProgressDots from '../components/ui/ProgressDots.vue'
 
 const router = useRouter()
 
@@ -38,9 +41,16 @@ function goToAbout() {
 </script>
 
 <style scoped>
+.temple-name {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  letter-spacing: 0.08em;
+}
+
 .intro-text {
-  line-height: 1.75;
+  line-height: var(--line-copy);
   color: var(--color-text-soft);
+  font-size: var(--font-md);
 }
 
 .onsite-tip {
@@ -48,4 +58,3 @@ function goToAbout() {
   color: var(--color-text-muted);
 }
 </style>
-

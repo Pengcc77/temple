@@ -7,15 +7,15 @@
 }
 
 .u-title {
-  font-size: var(--font-xl);
-  line-height: 1.28;
+  font-size: var(--font-2xl);
+  line-height: var(--line-title);
   color: var(--color-text);
 }
 
 .u-subtitle {
   color: var(--color-text-soft);
-  line-height: 1.65;
-  font-size: 15px;
+  line-height: var(--line-copy-tight);
+  font-size: var(--font-sm);
 }
 
 .u-stack-xs > * + * {
@@ -47,5 +47,33 @@
   border-radius: var(--radius-sm);
   background: rgba(255, 248, 238, 0.7);
   padding: var(--space-3);
+}
+
+.u-page-enter {
+  animation: fade-in-up var(--transition-soft) both;
+}
+
+.u-fade-in {
+  animation: fade-in var(--transition-soft) both;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0.01;
+  }
+  to {
+    opacity: 1;
+  }
 }
 

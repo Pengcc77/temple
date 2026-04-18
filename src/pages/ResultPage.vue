@@ -1,30 +1,31 @@
-<template>
+﻿<template>
   <PageShell
-    aria-label="祈福結果頁"
-    step="祈福旅程・完成"
+    aria-label="祈福結果"
+    step="祈福旅程・步驟 5"
     title="你的今日祝福"
-    subtitle="願這份祝福安穩地留在你的日常裡。"
+    subtitle="願這份祝福，陪你走過接下來的每一天。"
   >
     <ProgressDots :current="5" :total="5" />
 
-    <article ref="blessingCardRef" class="blessing-card" aria-label="祝福卡">
+    <article ref="blessingCardRef" class="blessing-card u-fade-in" aria-label="祝福卡">
+      <span class="guardian-seal" aria-hidden="true">護</span>
       <p class="temple-name">祥喜註生宮</p>
-      <p class="wish-direction">祈願：{{ displayWishLabel }}</p>
+      <p class="wish-direction">祈願方向：{{ displayWishLabel }}</p>
       <p class="context-line">{{ contextLine }}</p>
       <p class="blessing-line">{{ displayBlessingMessage }}</p>
-      <p class="today-date">日期：{{ todayLabel }}</p>
+      <p class="today-date">今日日期：{{ todayLabel }}</p>
     </article>
 
-    <p v-if="downloadError" class="download-error">目前無法直接下載，請稍後再試。</p>
+    <p v-if="downloadError" class="download-error">儲存失敗，請再試一次或改用截圖保存。</p>
 
     <template #footer>
       <div class="u-stack-sm">
-        <p class="download-tip">建議先儲存祝福卡，再分享給家人留念。</p>
+        <p class="download-tip">若手機瀏覽器無法直接下載，會自動開啟圖片，長按即可儲存。</p>
         <TempleButton
           variant="secondary"
           :disabled="isSaving"
           :loading="isSaving"
-          loading-text="正在準備圖片..."
+          loading-text="儲存中..."
           @click="saveImage"
         >
           儲存祝福卡
@@ -58,10 +59,10 @@ const randomBlessing = ref('')
 const fallbackWishType = 'babyHealth'
 
 const contextLineMap = {
-  safeBirth: '願你在等待與準備裡，感受到平穩與安心。',
-  babyHealth: '願孩子在祝福中平安長成，日日都被溫柔守護。',
-  gratitude: '願感謝的心意延續，化作日常裡的安定與喜悅。',
-  familySupport: '願家人彼此扶持，讓每一步都更踏實溫暖。',
+  safeBirth: '願迎接新生命的每一步，都平安、安穩、圓滿。',
+  babyHealth: '願孩子在守護與祝福裡，健康長大，日日安好。',
+  gratitude: '願感恩的心繼續照亮往後的日子，平安常伴。',
+  familySupport: '願一家彼此扶持，將溫柔陪伴化作安定力量。',
 }
 
 function resolveWishType() {
@@ -84,9 +85,7 @@ const displayWishLabel = computed(() => {
   return selected
 })
 
-const contextLine = computed(() => {
-  return contextLineMap[wishType.value] || contextLineMap[fallbackWishType]
-})
+const contextLine = computed(() => contextLineMap[wishType.value] || contextLineMap[fallbackWishType])
 
 const displayBlessingMessage = computed(() => {
   const fromStore = state.blessingMessage?.trim()
@@ -164,14 +163,30 @@ function goBack() {
 
 <style scoped>
 .blessing-card {
+  position: relative;
   margin-top: var(--space-2);
-  padding: 20px 18px;
+  padding: 22px 18px 20px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   background: linear-gradient(180deg, rgba(255, 252, 247, 0.92), rgba(255, 246, 236, 0.9)),
     radial-gradient(circle at 20% 18%, rgba(255, 244, 223, 0.8), transparent 36%);
   box-shadow: 0 18px 34px rgba(118, 81, 50, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.85);
   text-align: center;
+}
+
+.guardian-seal {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(170, 124, 82, 0.5);
+  color: rgba(147, 102, 64, 0.86);
+  font-size: 15px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 245, 230, 0.75);
 }
 
 .temple-name {
@@ -185,19 +200,20 @@ function goBack() {
   color: var(--color-text);
   font-size: var(--font-lg);
   font-weight: 600;
+  line-height: var(--line-title);
 }
 
 .context-line {
   margin-top: 10px;
   color: var(--color-text-muted);
-  line-height: 1.7;
+  line-height: var(--line-copy-tight);
   font-size: var(--font-sm);
 }
 
 .blessing-line {
   margin-top: var(--space-3);
   color: var(--color-text-soft);
-  line-height: 1.8;
+  line-height: var(--line-copy);
   font-size: var(--font-md);
 }
 
@@ -217,5 +233,6 @@ function goBack() {
   text-align: center;
   color: var(--color-text-muted);
   font-size: var(--font-sm);
+  line-height: var(--line-copy-tight);
 }
 </style>

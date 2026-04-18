@@ -1,4 +1,4 @@
-export const storyCards = [
+﻿export const storyCards = [
   {
     id: 'origin',
     title: '宮廟的起源',

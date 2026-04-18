@@ -1,13 +1,13 @@
 ﻿<template>
   <PageShell
     aria-label="淨心點燈"
-    step="祈福旅程?步驟 3"
+    step="祈福旅程・步驟 3"
     title="長按點亮心燈"
     subtitle="在安靜的片刻，讓祝福慢慢亮起。"
   >
     <ProgressDots :current="3" :total="5" />
 
-    <SectionCard tone="soft" class="lamp-wrap">
+    <SectionCard tone="soft" class="lamp-wrap u-fade-in">
       <button
         type="button"
         class="lamp-button"
@@ -32,7 +32,7 @@
       </button>
     </SectionCard>
 
-    <SectionCard v-if="isLit" tone="soft">
+    <SectionCard v-if="isLit" tone="soft" class="u-fade-in">
       <p class="blessing-text">{{ BLESSING_TEXT }}</p>
     </SectionCard>
 
@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  transition: transform 0.16s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition: transform 0.16s ease, box-shadow var(--transition-soft), background var(--transition-soft);
 }
 
 .lamp-button.is-holding {
@@ -179,14 +179,14 @@ onBeforeUnmount(() => {
 }
 
 .lamp-status {
-  font-size: 15px;
+  font-size: var(--font-sm);
   font-weight: 600;
 }
 
 .progress-track {
   width: 78%;
   height: 8px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: rgba(255, 255, 255, 0.58);
   overflow: hidden;
 }
@@ -202,8 +202,8 @@ onBeforeUnmount(() => {
 .blessing-text {
   text-align: center;
   color: #674a34;
-  font-size: 17px;
+  font-size: var(--font-lg);
   font-weight: 600;
+  line-height: var(--line-copy-tight);
 }
 </style>
-

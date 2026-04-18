@@ -1,7 +1,7 @@
 ﻿<template>
   <PageShell
     aria-label="祈願選擇"
-    step="祈福旅程?步驟 1"
+    step="祈福旅程・步驟 1"
     title="今日想獻上的祈願"
     subtitle="選擇一個此刻最想守護的心願。"
   >
@@ -9,14 +9,15 @@
 
     <div class="wish-list">
       <SectionCard
-        v-for="option in options"
+        v-for="(option, index) in options"
         :key="option"
-        class="wish-item"
+        class="wish-item u-fade-in"
         :class="{ 'is-selected': selectedWish === option }"
+        :style="{ animationDelay: `${index * 50}ms` }"
       >
         <button type="button" class="wish-trigger" @click="selectWish(option)">
           <span>{{ option }}</span>
-          <span class="wish-mark" aria-hidden="true">{{ selectedWish === option ? '?' : '' }}</span>
+          <span class="wish-mark" aria-hidden="true">{{ selectedWish === option ? '已選' : '' }}</span>
         </button>
       </SectionCard>
     </div>
@@ -92,24 +93,23 @@ function goBack() {
   border: none;
   background: transparent;
   color: var(--color-text);
-  padding: 14px;
+  padding: var(--space-3);
   text-align: left;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 17px;
+  font-size: var(--font-md);
   font-weight: 600;
 }
 
 .wish-mark {
-  width: 24px;
+  min-width: 38px;
   height: 24px;
-  border-radius: 50%;
+  border-radius: var(--radius-pill);
   border: 1px solid var(--color-border-strong);
   display: grid;
   place-items: center;
   color: #8a5d33;
-  font-size: 13px;
+  font-size: var(--font-xs);
 }
 </style>
-

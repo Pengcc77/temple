@@ -41,11 +41,12 @@ defineProps({
 <style scoped>
 .temple-button {
   width: 100%;
-  min-height: 48px;
+  min-height: 50px;
   border-radius: var(--radius-pill);
   font-size: var(--font-md);
   font-weight: 600;
-  transition: transform 0.14s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  letter-spacing: 0.01em;
+  transition: transform 0.14s ease, box-shadow var(--transition-soft), opacity var(--transition-soft);
 }
 
 .temple-button:active {

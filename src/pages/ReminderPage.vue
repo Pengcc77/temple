@@ -1,14 +1,14 @@
 ﻿<template>
   <PageShell
     aria-label="參拜提醒"
-    step="祈福旅程?步驟 2"
+    step="祈福旅程・步驟 2"
     title="參拜前的小提醒"
     subtitle="以安靜的心，讓祈福更貼近初心。"
   >
     <ProgressDots :current="2" :total="5" />
 
     <div class="u-stack-sm">
-      <SectionCard v-for="tip in tips" :key="tip">
+      <SectionCard v-for="(tip, index) in tips" :key="tip" class="u-fade-in" :style="{ animationDelay: `${index * 50}ms` }">
         <p class="tip-text">{{ tip }}</p>
       </SectionCard>
     </div>
@@ -48,8 +48,8 @@ function goBack() {
 
 <style scoped>
 .tip-text {
-  line-height: 1.75;
+  line-height: var(--line-copy);
   color: var(--color-text-soft);
+  font-size: var(--font-md);
 }
 </style>
-

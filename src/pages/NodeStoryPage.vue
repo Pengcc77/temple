@@ -1,14 +1,14 @@
-<template>
+﻿<template>
   <PageShell
-    aria-label="識廟互動頁"
+    aria-label="認識祥喜註生宮"
     step="祈福旅程・步驟 4"
     title="認識祥喜註生宮"
-    subtitle="在一分鐘裡，讀見宮廟歷史與地方信念。"
+    subtitle="在一分鐘內，輕輕讀完這座宮廟的由來與信念。"
   >
     <ProgressDots :current="4" :total="5" />
 
-    <SectionCard tone="soft" class="u-stack-sm">
-      <p class="u-muted">已閱讀 {{ viewedCount }}/3</p>
+    <SectionCard tone="soft" class="u-stack-sm u-fade-in">
+      <p class="u-muted">閱讀進度 {{ viewedCount }}/3</p>
       <ol class="read-list">
         <li v-for="card in cards" :key="card.id">
           <span class="read-dot" :class="{ 'is-read': readMap[card.id] }" aria-hidden="true"></span>
@@ -19,10 +19,11 @@
 
     <div class="u-stack-sm">
       <SectionCard
-        v-for="card in cards"
+        v-for="(card, index) in cards"
         :key="card.id"
-        class="story-card"
+        class="story-card u-fade-in"
         :class="{ 'is-read': readMap[card.id] }"
+        :style="{ animationDelay: `${index * 55}ms` }"
       >
         <button
           type="button"
@@ -31,7 +32,7 @@
           @click="toggleCard(card.id)"
         >
           <span class="card-title">{{ card.title }}</span>
-          <span class="card-state">{{ openMap[card.id] ? '收起' : '展開' }}</span>
+          <span class="card-state">{{ openMap[card.id] ? '收合' : '展開' }}</span>
         </button>
 
         <Transition name="fade-slide">
@@ -42,9 +43,9 @@
       </SectionCard>
     </div>
 
-    <SectionCard tone="soft" class="closing-note">
-      <p>走過這段簡短的廟史，也讓心慢慢安定下來。</p>
-      <p>願這份理解，成為你今日祈願裡的一道溫柔光亮。</p>
+    <SectionCard tone="soft" class="closing-note u-fade-in" style="animation-delay: 140ms">
+      <p>每一份心意，都是與地方文化相遇的溫柔時刻。</p>
+      <p>願這段閱讀，讓你帶著更安定的心，走向今日祝福。</p>
     </SectionCard>
 
     <template #footer>
@@ -140,7 +141,7 @@ function goBack() {
   width: 100%;
   border: none;
   background: transparent;
-  padding: 14px;
+  padding: var(--space-3);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -148,7 +149,7 @@ function goBack() {
 }
 
 .card-title {
-  font-size: 17px;
+  font-size: var(--font-lg);
   font-weight: 600;
 }
 
@@ -158,18 +159,19 @@ function goBack() {
 }
 
 .card-content {
-  padding: 0 14px 14px;
+  padding: 0 var(--space-3) var(--space-3);
 }
 
 .card-content p {
   color: var(--color-text-soft);
-  line-height: 1.85;
-  font-size: 15px;
+  line-height: var(--line-copy);
+  font-size: var(--font-md);
 }
 
 .closing-note {
   color: var(--color-text-soft);
-  line-height: 1.8;
+  line-height: var(--line-copy);
+  font-size: var(--font-sm);
 }
 
 .closing-note p + p {
@@ -178,7 +180,7 @@ function goBack() {
 
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transition: opacity var(--transition-soft), transform var(--transition-soft);
 }
 
 .fade-slide-enter-from,

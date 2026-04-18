@@ -1,4 +1,4 @@
-export const templeInfo = {
+﻿export const templeInfo = {
   name: '祥喜註生宮',
   shortName: '祥喜註生宮',
   location: '新竹縣湖口鄉八德路二段592號',

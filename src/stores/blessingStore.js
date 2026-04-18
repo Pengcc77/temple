@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+﻿import { reactive } from 'vue'
 
 const state = reactive({
   selectedWishType: '',
@@ -13,20 +13,17 @@ function setBlessingMessage(message) {
   state.blessingMessage = message
 }
 
-// Backward-compatible alias used by existing pages.
 function setWishDirection(direction) {
   setSelectedWishType(direction)
 }
 
-// Backward-compatible placeholder for existing flow pages.
 function completeNode() {}
 
-// Backward-compatible mapping from previous id-based selection.
 function setSelectedBlessingId(id) {
   const map = {
-    'peaceful-heart': '願心安定，福至平安',
-    'family-harmony': '願家和同心，日常安穩',
-    'new-life': '願新生平順，福蔭常在',
+    'peaceful-heart': '願心安靜澄明，日日平安。',
+    'family-harmony': '願家人和順相伴，喜悅常在。',
+    'new-life': '願新生命平安到來，福澤綿長。',
   }
 
   if (map[id]) {

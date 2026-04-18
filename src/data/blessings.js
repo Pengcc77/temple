@@ -1,4 +1,4 @@
-export const blessings = {
+﻿export const blessings = {
   safeBirth: [
     '願生產順利，母子平安，心安圓滿。',
     '願一切過程平順安穩，迎來平安喜悅。',

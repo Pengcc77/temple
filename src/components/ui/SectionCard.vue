@@ -19,6 +19,8 @@ defineProps({
   border: 1px solid var(--color-border);
   background: rgba(255, 248, 238, 0.88);
   padding: var(--space-3);
+  transition: border-color var(--transition-soft), box-shadow var(--transition-soft),
+    transform var(--transition-soft);
 }
 
 .section-card--default {

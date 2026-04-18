@@ -72,6 +72,10 @@ defineProps({
   margin-top: var(--space-2);
 }
 
+.page-shell__header :deep(.progress-dots) {
+  margin-top: var(--space-3);
+}
+
 .page-shell__content {
   margin-top: var(--space-4);
   display: grid;

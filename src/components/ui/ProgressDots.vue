@@ -32,7 +32,7 @@ defineProps({
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .progress-dots__item {
@@ -42,8 +42,8 @@ defineProps({
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   border: 1px solid var(--color-border-strong);
   background: rgba(255, 255, 255, 0.86);
@@ -52,7 +52,7 @@ defineProps({
 .dot.is-active {
   background: #d7a77a;
   border-color: #c88d5b;
-  box-shadow: 0 0 0 3px rgba(215, 167, 122, 0.2);
+  box-shadow: 0 0 0 3px rgba(215, 167, 122, 0.18);
 }
 
 .dot-label {
