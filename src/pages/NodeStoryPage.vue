@@ -1,7 +1,7 @@
-﻿<template>
+<template>
   <PageShell
     aria-label="識廟互動頁"
-    step="祈福旅程?步驟 4"
+    step="祈福旅程・步驟 4"
     title="認識祥喜註生宮"
     subtitle="在一分鐘裡，讀見宮廟歷史與地方信念。"
   >
@@ -42,6 +42,11 @@
       </SectionCard>
     </div>
 
+    <SectionCard tone="soft" class="closing-note">
+      <p>走過這段簡短的廟史，也讓心慢慢安定下來。</p>
+      <p>願這份理解，成為你今日祈願裡的一道溫柔光亮。</p>
+    </SectionCard>
+
     <template #footer>
       <div class="u-stack-sm">
         <TempleButton v-if="allRead" variant="primary" @click="goNext">收下這份故事</TempleButton>
@@ -58,29 +63,10 @@ import PageShell from '../components/ui/PageShell.vue'
 import SectionCard from '../components/ui/SectionCard.vue'
 import TempleButton from '../components/ui/TempleButton.vue'
 import ProgressDots from '../components/ui/ProgressDots.vue'
+import { storyCards } from '../data/storyCards'
 
 const router = useRouter()
-
-const cards = [
-  {
-    id: 'origin',
-    title: '宮廟的起源',
-    content:
-      '祥喜註生宮位於新竹縣湖口鄉八德路二段592號，主祀註生娘娘。起源可追溯至清同治年間，是台灣少數以註生娘娘為主神的宮廟之一。',
-  },
-  {
-    id: 'continuation',
-    title: '香火的延續',
-    content:
-      '廟宇曾因年久失修倒塌，地方信眾仍將香火迎奉至民宅持續供奉。這份守護讓信仰沒有中斷，靜靜走過歲月。',
-  },
-  {
-    id: 'today',
-    title: '今日的祈願',
-    content:
-      '約在民國71年左右，宮廟重建於現址。如今人們來此祈求平安與新生祝福，將感恩與善意帶回日常。',
-  },
-]
+const cards = storyCards
 
 const openMap = reactive({
   origin: false,
@@ -177,7 +163,17 @@ function goBack() {
 
 .card-content p {
   color: var(--color-text-soft);
-  line-height: 1.75;
+  line-height: 1.85;
+  font-size: 15px;
+}
+
+.closing-note {
+  color: var(--color-text-soft);
+  line-height: 1.8;
+}
+
+.closing-note p + p {
+  margin-top: 8px;
 }
 
 .fade-slide-enter-active,
@@ -191,4 +187,3 @@ function goBack() {
   transform: translateY(-4px);
 }
 </style>
-

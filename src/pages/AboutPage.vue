@@ -3,16 +3,11 @@
     aria-label="廟宇簡介"
     step="祥喜註生宮"
     title="廟宇簡介"
-    subtitle="在這座安定的空間裡，感受信仰長久而溫柔的陪伴。"
+    subtitle="在這座安定的空間裡，感受地方信仰長久而溫柔的陪伴。"
   >
     <SectionCard class="u-stack-sm">
-      <p class="label">宮名</p>
-      <p class="value">{{ templeInfo.name }}</p>
-    </SectionCard>
-
-    <SectionCard class="u-stack-sm">
-      <p class="label">地點</p>
-      <p class="value">{{ templeInfo.location }}</p>
+      <p class="label">宮廟簡介</p>
+      <p class="desc">{{ templeInfo.description }}</p>
     </SectionCard>
 
     <SectionCard class="u-stack-sm">
@@ -21,8 +16,15 @@
     </SectionCard>
 
     <SectionCard class="u-stack-sm">
-      <p class="label">簡短介紹</p>
-      <p class="desc">{{ templeInfo.description }}</p>
+      <p class="label">地點</p>
+      <p class="value">{{ templeInfo.location }}</p>
+    </SectionCard>
+
+    <SectionCard class="u-stack-sm">
+      <p class="label">信眾常見祈願</p>
+      <ul class="wish-list">
+        <li v-for="wish in commonWishes" :key="wish">{{ wish }}</li>
+      </ul>
     </SectionCard>
 
     <template #footer>
@@ -35,13 +37,17 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import PageShell from '../components/ui/PageShell.vue'
 import SectionCard from '../components/ui/SectionCard.vue'
 import TempleButton from '../components/ui/TempleButton.vue'
 import { templeInfo } from '../data/templeInfo'
+import { wishTypeLabelMap } from '../data/blessings'
 
 const router = useRouter()
+
+const commonWishes = computed(() => Object.values(wishTypeLabelMap))
 
 function goWish() {
   router.push('/wish')
@@ -67,5 +73,12 @@ function goHome() {
 .desc {
   color: var(--color-text-soft);
   line-height: 1.75;
+}
+
+.wish-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--color-text-soft);
+  line-height: 1.7;
 }
 </style>

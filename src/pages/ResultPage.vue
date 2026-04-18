@@ -1,7 +1,7 @@
-﻿<template>
+<template>
   <PageShell
     aria-label="祈福結果頁"
-    step="祈福旅程?完成"
+    step="祈福旅程・完成"
     title="你的今日祝福"
     subtitle="願這份祝福安穩地留在你的日常裡。"
   >
@@ -9,7 +9,8 @@
 
     <article ref="blessingCardRef" class="blessing-card" aria-label="祝福卡">
       <p class="temple-name">祥喜註生宮</p>
-      <p class="wish-direction">祈願：{{ displayWishType }}</p>
+      <p class="wish-direction">祈願：{{ displayWishLabel }}</p>
+      <p class="context-line">{{ contextLine }}</p>
       <p class="blessing-line">{{ displayBlessingMessage }}</p>
       <p class="today-date">日期：{{ todayLabel }}</p>
     </article>
@@ -19,7 +20,13 @@
     <template #footer>
       <div class="u-stack-sm">
         <p class="download-tip">建議先儲存祝福卡，再分享給家人留念。</p>
-        <TempleButton variant="secondary" :disabled="isSaving" :loading="isSaving" loading-text="正在準備圖片..." @click="saveImage">
+        <TempleButton
+          variant="secondary"
+          :disabled="isSaving"
+          :loading="isSaving"
+          loading-text="正在準備圖片..."
+          @click="saveImage"
+        >
           儲存祝福卡
         </TempleButton>
         <TempleButton variant="primary" @click="prayAgain">再次祈福</TempleButton>
@@ -35,6 +42,7 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toPng } from 'html-to-image'
 import { useBlessingStore } from '../stores/blessingStore'
+import { getRandomBlessing, wishTypeLabelMap } from '../data/blessings'
 import PageShell from '../components/ui/PageShell.vue'
 import ProgressDots from '../components/ui/ProgressDots.vue'
 import TempleButton from '../components/ui/TempleButton.vue'
@@ -45,33 +53,49 @@ const { state, resetBlessingJourney } = useBlessingStore()
 const blessingCardRef = ref(null)
 const isSaving = ref(false)
 const downloadError = ref(false)
-
-const fallbackWishType = '願寶寶健康平安'
-const fallbackBlessing = '願心安定，福至平安。'
-
-const blessingsByWish = {
-  '求順利生產': ['願平安順產，母子安康。', '願身心安穩，迎來平順喜悅。'],
-  '求寶寶健康平安': ['願寶寶健康平安，日日被溫柔守護。', '願新生平穩成長，福澤常伴左右。'],
-  '感謝娘娘庇佑': ['願感恩常在，心境清明而安定。', '願善念延續，日日平和且圓滿。'],
-}
-
 const randomBlessing = ref('')
 
-function pickRandomBlessing(wishType) {
-  const pool = blessingsByWish[wishType] || [fallbackBlessing]
-  return pool[Math.floor(Math.random() * pool.length)]
+const fallbackWishType = 'babyHealth'
+
+const contextLineMap = {
+  safeBirth: '願你在等待與準備裡，感受到平穩與安心。',
+  babyHealth: '願孩子在祝福中平安長成，日日都被溫柔守護。',
+  gratitude: '願感謝的心意延續，化作日常裡的安定與喜悅。',
+  familySupport: '願家人彼此扶持，讓每一步都更踏實溫暖。',
 }
 
-const displayWishType = computed(() => state.selectedWishType?.trim() || fallbackWishType)
+function resolveWishType() {
+  const selected = state.selectedWishType?.trim()
+  if (!selected) return fallbackWishType
+
+  if (wishTypeLabelMap[selected]) return selected
+
+  const matched = Object.entries(wishTypeLabelMap).find(([, label]) => label === selected)
+  return matched ? matched[0] : fallbackWishType
+}
+
+const wishType = computed(() => resolveWishType())
+
+const displayWishLabel = computed(() => {
+  const selected = state.selectedWishType?.trim()
+  if (!selected) return wishTypeLabelMap[fallbackWishType]
+
+  if (wishTypeLabelMap[selected]) return wishTypeLabelMap[selected]
+  return selected
+})
+
+const contextLine = computed(() => {
+  return contextLineMap[wishType.value] || contextLineMap[fallbackWishType]
+})
 
 const displayBlessingMessage = computed(() => {
   const fromStore = state.blessingMessage?.trim()
   if (fromStore) return fromStore
 
   if (!randomBlessing.value) {
-    randomBlessing.value = pickRandomBlessing(displayWishType.value)
+    randomBlessing.value = getRandomBlessing(wishType.value)
   }
-  return randomBlessing.value || fallbackBlessing
+  return randomBlessing.value
 })
 
 const todayLabel = computed(() => {
@@ -110,8 +134,6 @@ async function saveImage() {
     link.rel = 'noopener'
     link.click()
 
-    // Some mobile browsers may ignore download attribute.
-    // Opening image in a new tab keeps long-press save available.
     setTimeout(() => {
       if (document.visibilityState === 'visible') {
         window.open(dataUrl, '_blank', 'noopener')
@@ -165,6 +187,13 @@ function goBack() {
   font-weight: 600;
 }
 
+.context-line {
+  margin-top: 10px;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  font-size: var(--font-sm);
+}
+
 .blessing-line {
   margin-top: var(--space-3);
   color: var(--color-text-soft);
@@ -190,4 +219,3 @@ function goBack() {
   font-size: var(--font-sm);
 }
 </style>
-
