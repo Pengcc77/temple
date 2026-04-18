@@ -6,18 +6,26 @@
         <h1>你的今日祝福</h1>
       </header>
 
-      <article class="blessing-card" aria-label="祝福卡">
+      <article ref="blessingCardRef" class="blessing-card" aria-label="祝福卡">
         <p class="temple-name">{{ templeName }}</p>
         <p class="wish-direction">祈願：{{ displayWishType }}</p>
         <p class="blessing-line">{{ displayBlessingMessage }}</p>
         <p class="today-date">日期：{{ todayLabel }}</p>
-
-        <button type="button" class="btn btn-save" @click="saveImage">
-          儲存圖片
-        </button>
       </article>
 
+      <p v-if="downloadError" class="download-error">
+        目前無法直接下載，請稍後再試。
+      </p>
+
       <footer class="result-footer">
+        <button
+          type="button"
+          class="btn btn-save"
+          :disabled="isSaving"
+          @click="saveImage"
+        >
+          {{ isSaving ? '正在準備圖片...' : '儲存祝福卡' }}
+        </button>
         <button type="button" class="btn btn-primary" @click="prayAgain">
           再次祈福
         </button>
@@ -32,10 +40,15 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { toPng } from 'html-to-image'
 import { useBlessingStore } from '../stores/blessingStore'
 
 const router = useRouter()
 const { state, resetBlessingJourney } = useBlessingStore()
+
+const blessingCardRef = ref(null)
+const isSaving = ref(false)
+const downloadError = ref(false)
 
 const templeName = '祥喜註生宮'
 const fallbackWishType = '願寶寶健康平安'
@@ -85,8 +98,47 @@ const todayLabel = computed(() => {
   }).format(new Date())
 })
 
-function saveImage() {
-  console.log('save image: TODO')
+function makeFileName() {
+  const date = new Date()
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `xiangxi-blessing-card-${y}-${m}-${d}.png`
+}
+
+async function saveImage() {
+  if (isSaving.value || !blessingCardRef.value) return
+
+  isSaving.value = true
+  downloadError.value = false
+
+  try {
+    const dataUrl = await toPng(blessingCardRef.value, {
+      cacheBust: true,
+      pixelRatio: 2,
+      backgroundColor: '#fffaf2',
+    })
+
+    const fileName = makeFileName()
+    const link = document.createElement('a')
+    link.href = dataUrl
+    link.download = fileName
+    link.rel = 'noopener'
+    link.click()
+
+    // Fallback note: some mobile browsers may ignore download attribute.
+    // In that case opening image directly can still allow user long-press save.
+    setTimeout(() => {
+      if (document.visibilityState === 'visible') {
+        window.open(dataUrl, '_blank', 'noopener')
+      }
+    }, 350)
+  } catch (error) {
+    downloadError.value = true
+    console.error('Failed to save blessing card image:', error)
+  } finally {
+    isSaving.value = false
+  }
 }
 
 function prayAgain() {
@@ -179,6 +231,13 @@ function goHome() {
   font-size: 14px;
 }
 
+.download-error {
+  margin: 10px 0 0;
+  text-align: center;
+  color: #a65b40;
+  font-size: 14px;
+}
+
 .result-footer {
   margin-top: auto;
   display: grid;
@@ -195,10 +254,13 @@ function goHome() {
 }
 
 .btn-save {
-  margin-top: 16px;
   border: 1px solid rgba(158, 120, 88, 0.36);
   color: #6a4f3a;
   background: rgba(255, 249, 241, 0.95);
+}
+
+.btn-save:disabled {
+  opacity: 0.65;
 }
 
 .btn-primary {
