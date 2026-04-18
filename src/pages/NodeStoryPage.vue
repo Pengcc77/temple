@@ -102,8 +102,7 @@ function toggleCard(id) {
 }
 
 function goNext() {
-  const hasBlessingRoute = router.getRoutes().some((route) => route.path === '/journey/blessing')
-  router.push(hasBlessingRoute ? '/journey/blessing' : '/result')
+  router.push('/result')
 }
 </script>
 

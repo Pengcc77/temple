@@ -32,7 +32,7 @@ function startBlessing() {
 }
 
 function goToAbout() {
-  console.log('go to about')
+  router.push('/about')
 }
 </script>
 

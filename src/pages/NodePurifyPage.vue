@@ -107,7 +107,7 @@ function stopHold() {
 function acceptBlessing() {
   if (!isLit.value) return
   blessingStore.setBlessingMessage(BLESSING_TEXT)
-  router.push('/result')
+  router.push('/journey/story')
 }
 
 const statusText = computed(() => {
