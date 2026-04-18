@@ -4,19 +4,38 @@ import { useRouter } from 'vue-router'
 import MobileShell from '../components/ui/MobileShell.vue'
 import JourneyProgress from '../components/ritual/JourneyProgress.vue'
 import HeartLampHoldButton from '../components/ritual/HeartLampHoldButton.vue'
-import { blessings } from '../data/blessings'
+import { getRandomBlessing } from '../data/blessings'
 import { useBlessingStore } from '../stores/blessingStore'
 
 const router = useRouter()
-const { completeNode, setSelectedBlessingId } = useBlessingStore()
+const { state, completeNode, setBlessingMessage } = useBlessingStore()
+
+const fallbackWishType = 'babyHealth'
+
+const wishTypeMap = {
+  safeBirth: 'safeBirth',
+  babyHealth: 'babyHealth',
+  gratitude: 'gratitude',
+  familySupport: 'familySupport',
+  '求順利生產': 'safeBirth',
+  '求寶寶健康平安': 'babyHealth',
+  '感謝娘娘庇佑': 'gratitude',
+  '陪家人一起祈福': 'familySupport',
+}
 
 onMounted(() => {
   completeNode('blessing')
 })
 
+function resolveWishType() {
+  const selected = state.selectedWishType?.trim()
+  return wishTypeMap[selected] || fallbackWishType
+}
+
 function collectBlessing() {
-  const randomBlessing = blessings[Math.floor(Math.random() * blessings.length)]
-  setSelectedBlessingId(randomBlessing.id)
+  const wishType = resolveWishType()
+  const blessingText = getRandomBlessing(wishType)
+  setBlessingMessage(blessingText)
   router.push('/result')
 }
 </script>
