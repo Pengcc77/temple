@@ -37,7 +37,10 @@
     </SectionCard>
 
     <template #footer>
-      <TempleButton v-if="isLit" variant="primary" @click="acceptBlessing">收下祝福</TempleButton>
+      <div class="u-stack-sm">
+        <TempleButton v-if="isLit" variant="primary" @click="acceptBlessing">收下祝福</TempleButton>
+        <TempleButton variant="secondary" @click="goBack">返回上一頁</TempleButton>
+      </div>
     </template>
   </PageShell>
 </template>
@@ -108,6 +111,10 @@ function acceptBlessing() {
   if (!isLit.value) return
   blessingStore.setBlessingMessage(BLESSING_TEXT)
   router.push('/journey/story')
+}
+
+function goBack() {
+  router.push('/reminder')
 }
 
 const statusText = computed(() => {

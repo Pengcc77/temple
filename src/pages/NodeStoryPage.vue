@@ -43,7 +43,10 @@
     </div>
 
     <template #footer>
-      <TempleButton v-if="allRead" variant="primary" @click="goNext">收下這份故事</TempleButton>
+      <div class="u-stack-sm">
+        <TempleButton v-if="allRead" variant="primary" @click="goNext">收下這份故事</TempleButton>
+        <TempleButton variant="secondary" @click="goBack">返回上一頁</TempleButton>
+      </div>
     </template>
   </PageShell>
 </template>
@@ -103,6 +106,10 @@ function toggleCard(id) {
 
 function goNext() {
   router.push('/result')
+}
+
+function goBack() {
+  router.push('/journey/purify')
 }
 </script>
 

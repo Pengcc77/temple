@@ -18,10 +18,12 @@
 
     <template #footer>
       <div class="u-stack-sm">
+        <p class="download-tip">建議先儲存祝福卡，再分享給家人留念。</p>
         <TempleButton variant="secondary" :disabled="isSaving" :loading="isSaving" loading-text="正在準備圖片..." @click="saveImage">
           儲存祝福卡
         </TempleButton>
         <TempleButton variant="primary" @click="prayAgain">再次祈福</TempleButton>
+        <TempleButton variant="secondary" @click="goBack">返回上一頁</TempleButton>
         <TempleButton variant="secondary" @click="goHome">回到首頁</TempleButton>
       </div>
     </template>
@@ -132,6 +134,10 @@ function goHome() {
   resetBlessingJourney()
   router.push('/')
 }
+
+function goBack() {
+  router.push('/journey/story')
+}
 </script>
 
 <style scoped>
@@ -175,6 +181,12 @@ function goHome() {
 .download-error {
   text-align: center;
   color: #a65b40;
+  font-size: var(--font-sm);
+}
+
+.download-tip {
+  text-align: center;
+  color: var(--color-text-muted);
   font-size: var(--font-sm);
 }
 </style>

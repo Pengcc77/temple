@@ -8,6 +8,7 @@
     <SectionCard tone="soft" class="u-stack-sm u-center">
       <p class="u-muted">祥喜註生宮</p>
       <p class="intro-text">沿著簡短引導，靜心、祈願、收福，讓祝福安穩留在今天。</p>
+      <p class="onsite-tip">約 3 分鐘完成，建議手機靜音體驗。</p>
     </SectionCard>
 
     <template #footer>
@@ -40,6 +41,11 @@ function goToAbout() {
 .intro-text {
   line-height: 1.75;
   color: var(--color-text-soft);
+}
+
+.onsite-tip {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
 }
 </style>
 

@@ -22,7 +22,10 @@
     </div>
 
     <template #footer>
-      <TempleButton variant="primary" :disabled="!canContinue" @click="continueToReminder">繼續</TempleButton>
+      <div class="u-stack-sm">
+        <TempleButton variant="primary" :disabled="!canContinue" @click="continueToReminder">繼續</TempleButton>
+        <TempleButton variant="secondary" @click="goBack">返回上一頁</TempleButton>
+      </div>
     </template>
   </PageShell>
 </template>
@@ -61,6 +64,10 @@ function continueToReminder() {
 
   blessingStore.setBlessingMessage(messageMap[selectedWish.value] || '願心安定，福至平安。')
   router.push('/reminder')
+}
+
+function goBack() {
+  router.push('/')
 }
 </script>
 

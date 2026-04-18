@@ -14,7 +14,10 @@
     </div>
 
     <template #footer>
-      <TempleButton variant="primary" @click="startBlessing">開始今日祈福</TempleButton>
+      <div class="u-stack-sm">
+        <TempleButton variant="primary" @click="startBlessing">開始今日祈福</TempleButton>
+        <TempleButton variant="secondary" @click="goBack">返回上一頁</TempleButton>
+      </div>
     </template>
   </PageShell>
 </template>
@@ -36,6 +39,10 @@ const tips = [
 
 function startBlessing() {
   router.push('/journey/purify')
+}
+
+function goBack() {
+  router.push('/wish')
 }
 </script>
 
