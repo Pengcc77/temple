@@ -13,7 +13,7 @@
       </div>
       <p class="temple-name">祥喜註生宮</p>
       <p class="intro-text">沿著簡短引導，靜心、祈願、收福，讓祝福安穩留在今天。</p>
-      <p class="onsite-tip">約 3 分鐘完成，建議手機靜音體驗。</p>
+      <p class="onsite-tip">約 3 分鐘完成，手機靜音體驗。</p>
     </SectionCard>
 
     <template #footer>

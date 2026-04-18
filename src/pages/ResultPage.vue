@@ -23,9 +23,12 @@
 
     <template #footer>
       <div class="u-stack-sm">
-        <p class="download-tip">若手機瀏覽器無法直接下載，會自動開啟圖片，長按即可儲存。</p>
+        <div class="download-tip">
+          <p>先按「儲存祝福卡」，等待畫面完成。</p>
+          <p>若手機未直接下載，會開啟圖片頁，請長按圖片後儲存。</p>
+        </div>
         <TempleButton
-          variant="secondary"
+          variant="primary"
           :disabled="isSaving"
           :loading="isSaving"
           loading-text="儲存中..."
@@ -33,9 +36,8 @@
         >
           儲存祝福卡
         </TempleButton>
-        <TempleButton variant="primary" @click="prayAgain">再次祈福</TempleButton>
+        <TempleButton variant="secondary" @click="prayAgain">再次祈福</TempleButton>
         <TempleButton variant="secondary" @click="goBack">返回上一頁</TempleButton>
-        <TempleButton variant="secondary" @click="goHome">回到首頁</TempleButton>
       </div>
     </template>
   </PageShell>
@@ -155,11 +157,6 @@ function prayAgain() {
   router.push('/')
 }
 
-function goHome() {
-  resetBlessingJourney()
-  router.push('/')
-}
-
 function goBack() {
   router.push('/journey/story')
 }
@@ -238,6 +235,10 @@ function goBack() {
   color: var(--color-text-muted);
   font-size: var(--font-sm);
   line-height: var(--line-copy-tight);
+}
+
+.download-tip p + p {
+  margin-top: 4px;
 }
 
 .blessing-figure-wrap {

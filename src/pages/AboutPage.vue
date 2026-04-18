@@ -32,7 +32,7 @@
     <template #footer>
       <div class="u-stack-sm">
         <TempleButton variant="primary" @click="goWish">開始祈福</TempleButton>
-        <TempleButton variant="secondary" @click="goHome">回到首頁</TempleButton>
+        <TempleButton variant="secondary" @click="goBack">返回上一頁</TempleButton>
       </div>
     </template>
   </PageShell>
@@ -56,7 +56,7 @@ function goWish() {
   router.push('/wish')
 }
 
-function goHome() {
+function goBack() {
   router.push('/')
 }
 </script>

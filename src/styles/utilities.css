@@ -15,7 +15,7 @@
 .u-subtitle {
   color: var(--color-text-soft);
   line-height: var(--line-copy-tight);
-  font-size: var(--font-sm);
+  font-size: var(--font-md);
 }
 
 .u-stack-xs > * + * {

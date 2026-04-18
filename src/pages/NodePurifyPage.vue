@@ -30,6 +30,7 @@
           <span class="progress-fill" :style="{ width: `${progress}%` }"></span>
         </span>
       </button>
+      <p class="hold-tip">{{ holdTip }}</p>
     </SectionCard>
 
     <SectionCard v-if="isLit" tone="soft" class="u-fade-in">
@@ -38,7 +39,9 @@
 
     <template #footer>
       <div class="u-stack-sm">
-        <TempleButton v-if="isLit" variant="primary" @click="acceptBlessing">收下祝福</TempleButton>
+        <TempleButton variant="primary" :disabled="!isLit" @click="acceptBlessing">
+          {{ isLit ? '收下祝福' : '先點亮心燈' }}
+        </TempleButton>
         <TempleButton variant="secondary" @click="goBack">返回上一頁</TempleButton>
       </div>
     </template>
@@ -123,6 +126,12 @@ const statusText = computed(() => {
   return '長按點燈 2 秒'
 })
 
+const holdTip = computed(() => {
+  if (isLit.value) return '點亮完成，請收下今日祝福。'
+  if (isHolding.value) return '光圈正在點亮，請持續按住不要放開。'
+  return '請長按圓燈 2 秒，直到光圈填滿。'
+})
+
 onMounted(() => {
   if (typeof blessingStore.completeNode === 'function') {
     blessingStore.completeNode('purify')
@@ -157,16 +166,27 @@ onBeforeUnmount(() => {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  position: relative;
   transition: transform 0.16s ease, box-shadow var(--transition-soft), background var(--transition-soft);
 }
 
 .lamp-button.is-holding {
   transform: scale(0.992);
+  box-shadow: 0 0 0 12px rgba(239, 194, 122, 0.22), 0 16px 36px rgba(128, 84, 45, 0.28);
 }
 
 .lamp-button.is-lit {
   background: radial-gradient(circle at 35% 30%, #fff9de, #f3d18d 55%, #d8a35c);
-  box-shadow: 0 0 0 10px rgba(241, 203, 132, 0.2), 0 16px 34px rgba(128, 84, 45, 0.32);
+  box-shadow: 0 0 0 12px rgba(241, 203, 132, 0.24), 0 16px 34px rgba(128, 84, 45, 0.32);
+}
+
+.lamp-button.is-holding::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px solid rgba(236, 184, 107, 0.45);
+  animation: hold-pulse 1.1s ease-in-out infinite;
 }
 
 .lamp-core {
@@ -185,7 +205,7 @@ onBeforeUnmount(() => {
 
 .progress-track {
   width: 78%;
-  height: 8px;
+  height: 10px;
   border-radius: var(--radius-pill);
   background: rgba(255, 255, 255, 0.58);
   overflow: hidden;
@@ -205,5 +225,28 @@ onBeforeUnmount(() => {
   font-size: var(--font-lg);
   font-weight: 600;
   line-height: var(--line-copy-tight);
+}
+
+.hold-tip {
+  margin-top: var(--space-2);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-sm);
+  line-height: var(--line-copy-tight);
+}
+
+@keyframes hold-pulse {
+  0% {
+    opacity: 0.45;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.01);
+  }
+  100% {
+    opacity: 0.45;
+    transform: scale(0.98);
+  }
 }
 </style>

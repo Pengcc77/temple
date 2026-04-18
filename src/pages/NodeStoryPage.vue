@@ -50,7 +50,7 @@
 
     <template #footer>
       <div class="u-stack-sm">
-        <TempleButton v-if="allRead" variant="primary" @click="goNext">收下這份故事</TempleButton>
+        <TempleButton variant="primary" :disabled="!allRead" @click="goNext">收下這份故事</TempleButton>
         <TempleButton variant="secondary" @click="goBack">返回上一頁</TempleButton>
       </div>
     </template>
@@ -114,7 +114,7 @@ function goBack() {
   align-items: center;
   gap: 8px;
   color: var(--color-text-soft);
-  font-size: var(--font-sm);
+  font-size: var(--font-md);
 }
 
 .read-dot {
@@ -159,19 +159,23 @@ function goBack() {
 }
 
 .card-content {
-  padding: 0 var(--space-3) var(--space-3);
+  padding: 0 var(--space-3) var(--space-4);
 }
 
 .card-content p {
+  max-width: 30ch;
+  margin: 0 auto;
+  text-align: left;
   color: var(--color-text-soft);
-  line-height: var(--line-copy);
+  line-height: 1.9;
   font-size: var(--font-md);
+  letter-spacing: 0.01em;
 }
 
 .closing-note {
   color: var(--color-text-soft);
-  line-height: var(--line-copy);
-  font-size: var(--font-sm);
+  line-height: var(--line-copy-tight);
+  font-size: var(--font-md);
 }
 
 .closing-note p + p {

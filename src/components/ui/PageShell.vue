@@ -43,14 +43,14 @@ defineProps({
 <style scoped>
 .page-shell {
   min-height: 100dvh;
-  padding: 20px 16px;
+  padding: 20px 16px calc(16px + env(safe-area-inset-bottom));
   display: flex;
   justify-content: center;
 }
 
 .page-shell__inner {
   width: min(100%, var(--page-max-width));
-  min-height: calc(100dvh - 40px);
+  min-height: calc(100dvh - 36px - env(safe-area-inset-bottom));
   padding: var(--space-5) var(--space-4) var(--space-4);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
@@ -85,6 +85,7 @@ defineProps({
 .page-shell__footer {
   margin-top: auto;
   padding-top: var(--space-4);
+  padding-bottom: max(var(--space-2), env(safe-area-inset-bottom));
 }
 
 @media (max-width: 360px) {
